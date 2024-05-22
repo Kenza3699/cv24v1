@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Aide Complète</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="container">
+        <h1>Page d'aide complète</h1>
+        <p>Voici la liste détaillée des opérations gérées par le service REST :</p>
+
+        <h2>I.1 - Page d’accueil</h2>
+        <ul>
+            <li><strong>URL :</strong> /</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche la page d’accueil</li>
+            <li><strong>Retour :</strong> Format HTML ou XHTML valide</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Nom de votre projet</li>
+                    <li>Numéro de version</li>
+                    <li>Nom & Prénom de chaque membre de l'équipe</li>
+                    <li>Logo de l’Université de Rouen</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>I.2 - Aide</h2>
+        <ul>
+            <li><strong>URL :</strong> /help</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche la page contenant les informations d’aide</li>
+            <li><strong>Retour :</strong> Format HTML ou XHTML valide</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Affiche la liste des opérations gérées par le service REST</li>
+                    <li>Pour chaque opération :
+                        <ul>
+                            <li>URL</li>
+                            <li>Méthode attendue</li>
+                            <li>Résumé de l’opération (format attendu, format de retour, ...)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>I.3 - Liste des CV</h2>
+        <h3>I.3.1 - Format XML</h3>
+        <ul>
+            <li><strong>URL :</strong> /cv24/resume/xml</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche la liste des CV stockés</li>
+            <li><strong>Retour :</strong> Flux XML</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Liste contenant la synthèse des informations présentes dans la base</li>
+                    <li>Pour chaque CV :
+                        <ul>
+                            <li>Id : Valeur numérique auto-incrémentée</li>
+                            <li>Identité : Genre, Prénom, Nom</li>
+                            <li>Objectif avec le statut spécifié en début de ligne</li>
+                            <li>Diplôme le plus élevé (ou le plus récent)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>I.3.2 - Format HTML</h3>
+        <ul>
+            <li><strong>URL :</strong> /cv24/resume</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche la liste des CV stockés</li>
+            <li><strong>Retour :</strong> Page HTML (ou XHTML)</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Mêmes informations que précédemment mais présentées au format HTML</li>
+                    <li>Une mise en page agréable sera réalisée</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>I.4 - Détail d’un CV</h2>
+        <h3>I.4.1 - Format XML</h3>
+        <ul>
+            <li><strong>URL :</strong> /cv24/xml?id=&lt;id&gt;</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche le contenu complet du CV dont l’identifiant est transmis en paramètre</li>
+            <li><strong>Retour :</strong> Flux XML conforme au schéma xsd cv24</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Intégralité de la spécification dont l’identifiant est fourni</li>
+                    <li>Si l’identifiant est incorrect, retour d’un message d’erreur au format XML
+                        <ul>
+                            <li>id → numéro de l’identifiant demandé</li>
+                            <li>status → ERROR</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>I.4.2 - Format HTML</h3>
+        <ul>
+            <li><strong>URL :</strong> /cv24/html?id=&lt;id&gt;</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Affiche le contenu complet du CV dont l’identifiant est &lt;id&gt;</li>
+            <li><strong>Retour :</strong> Page HTML (ou XHTML)</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Intégralité du CV dont l’identifiant est fourni par &lt;id&gt;</li>
+                    <li>Si l’identifiant est incorrect, retour d’un message d’erreur au format HTML contenant :
+                        <ul>
+                            <li>id → numéro de l’identifiant demandé</li>
+                            <li>status → ERROR</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>I.5 - Ajout d’un CV dans la base</h2>
+        <ul>
+            <li><strong>URL :</strong> /cv24/insert</li>
+            <li><strong>Méthode :</strong> POST</li>
+            <li><strong>Transmis :</strong> Flux XML respectant la spécification cv24</li>
+            <li><strong>Opération :</strong> Valide et ajoute un CV dans la base</li>
+            <li><strong>Retour :</strong> Flux XML</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Le flux est validé par le schéma XSD cv24</li>
+                    <li>Si le flux est déjà présent, indication d’erreur</li>
+                    <li>Si l’opération est réussie :
+                        <ul>
+                            <li>Le CV est ajouté à la base</li>
+                            <li>id généré automatiquement</li>
+                            <li>Flux XML retourné contenant :
+                                <ul>
+                                    <li>id → numéro d’identifiant attribué</li>
+                                    <li>status → INSERTED</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>En cas d’échec :
+                        <ul>
+                            <li>status → ERROR</li>
+                            <li>detail → INVALID | DUPLICATED</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>I.5.1 - Suppression d’un CV</h2>
+        <ul>
+            <li><strong>URL :</strong> /cv24/delete</li>
+            <li><strong>Méthode :</strong> DELETE</li>
+            <li><strong>Transmis :</strong> Valeur de l'identifiant &lt;id&gt;</li>
+            <li><strong>Opération :</strong> Suppression d’un CV dont l’identifiant est &lt;id&gt;</li>
+            <li><strong>Retour :</strong> Flux XML</li>
+            <li><strong>Description :</strong>
+                <ul>
+                    <li>Si l’opération est réussie :
+                        <ul>
+                            <li>id → Numéro d’identifiant du CV supprimé</li>
+                            <li>status → DELETED</li>
+                        </ul>
+                    </li>
+                    <li>Si l’opération échoue :
+                        <ul>
+                            <li>status → ERROR</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>III.2 - API de recherche : Version de base</h2>
+        <ul>
+            <li><strong>URL :</strong> /cv24/search?...</li>
+            <li><strong>Méthode :</strong> GET</li>
+            <li><strong>Opération :</strong> Recherche la liste des spécifications répondant aux contraintes exprimées dans la requête</li>
+            <li><strong>Paramètres de recherche :</strong>
+                <ul>
+                    <li><strong>date :</strong> Liste des spécifications dont la date est identique, ou postérieure à celle indiquée dans la requête.</li>
+                    <li><strong>objectif :</strong> Liste des CV dont l'objectif spécifié comprend au moins l'un des mots de la requête.</li>
+                </ul>
+            </li>
+            <li><strong>Retour :</strong> Flux XML comprenant la liste des articles répondant aux critères de recherche exprimés. Le format sera semblable à celui utilisé pour présenter la liste des articles (§I.3.1).</li>
+            <li><strong>Conditions de retour :</strong>
+                <ul>
+                    <li>Si l’opération a réussi, mais que la liste est vide, alors seul le statut sera retourné :
+                        <ul>
+                            <li>status = NONE</li>
+                        </ul>
+                    </li>
+                    <li>Si l’opération a échoué (format de contrainte incorrect, ..), retourner le statut :
+                        <ul>
+                            <li>status = ERROR</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </div>
+</body>
+</html>

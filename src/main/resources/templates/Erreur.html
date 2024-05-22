@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erreur</title>
+    <link rel="stylesheet" th:href="@{/css/styleResume.css}" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img th:src="@{/images/logo.png}" alt="Logo de l'Université de Rouen">
+            </div>
+            <div class="title">
+                <h1>JobFounder</h1>
+                <h2>Erreur</h2>
+            </div>
+        </header>
+        <main>
+            <div class="error-details">
+                <p><strong>ID:</strong> <span th:text="${id}"></span></p>
+                <p><strong>Status:</strong> <span th:text="${status}"></span></p>
+                <p>Le CV demandé est introuvable.</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

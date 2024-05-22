@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="FR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des CV</title>
+    <link rel="stylesheet" th:href="@{/css/styleResume.css}" />
+</head>
+<body class="page-cv-list">
+<div class="container">
+    <header>
+        <div class="logo">
+            <img th:src="@{/images/logo.png}" alt="Logo de l'Université de Rouen">
+        </div>
+        <div class="title">
+            <h1>JobFounder</h1>
+            <h2>Liste des CV</h2>
+        </div>
+    </header>
+    <main>
+        <div class="container-fluid pt-4 px-4">
+            <div class="text-center arrondi p-4">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Genre</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Diplôme</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="cv : ${cvs}">
+                            <td th:text="${cv.identite.id}"></td>
+                            <td th:text="${cv.identite.genre}"></td>
+                            <td th:text="${cv.identite.prenom}"></td>
+                            <td th:text="${cv.identite.nom}"></td>
+                            <td th:text="${cv.diplomes[0].titre}"></td>
+                            <td>
+                                <button class="supprimer action" th:data-id="${cv.identite.id}">Supprimer</button>
+                                <button class="details action" th:data-id="${cv.identite.id}">Détails</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="message-box" class="message-box"></div>
+    <div id="confirm-box" class="confirm-box">
+        <p>Êtes-vous sûr de vouloir supprimer ce CV ?</p>
+        <button id="confirm-delete" class="confirm">Confirmer</button>
+        <button id="cancel-delete" class="cancel">Annuler</button>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const boutonsSupprimer = document.querySelectorAll('.supprimer');
+    const boutonsDetails = document.querySelectorAll('.details');
+    const messageBox = document.getElementById('message-box');
+    const confirmBox = document.getElementById('confirm-box');
+    let deleteId = null;
+
+    boutonsSupprimer.forEach(bouton => {
+        bouton.addEventListener('click', function() {
+            deleteId = this.getAttribute('data-id');
+            confirmBox.style.display = 'block';
+        });
+    });
+
+    document.getElementById('confirm-delete').addEventListener('click', function() {
+        fetch(`/cv24/delete/${deleteId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/xml'
+            }
+        })
+        .then(response => {
+            confirmBox.style.display = 'none';
+            if (response.ok) {
+                document.querySelector(`button[data-id='${deleteId}']`).closest('tr').remove();
+                messageBox.textContent = 'CV supprimé avec succès';
+                messageBox.className = 'message-box success';
+            } else {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            messageBox.textContent = 'Une erreur s\'est produite lors de la suppression du CV';
+            messageBox.className = 'message-box error';
+        })
+        .finally(() => {
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        });
+    });
+
+    document.getElementById('cancel-delete').addEventListener('click', function() {
+        confirmBox.style.display = 'none';
+    });
+
+    boutonsDetails.forEach(bouton => {
+        bouton.addEventListener('click', function() {
+            const detailId = this.getAttribute('data-id');
+            window.location.href = `/cv24/html?id=${detailId}`;
+        });
+    });
+});
+</script>
+</body>
+</html>

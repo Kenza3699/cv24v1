@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Projet CV24</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="'Bienvenue dans ' + ${projectName}">Bienvenue dans notre projet</h1>
+        <p>Version du projet : <span th:text="${versionNumber}">1.0</span></p>
+        <h2>Membres de l'équipe :</h2>
+        <ul>
+            <li th:each="membre : ${teamMembers}" th:text="${membre}">Nom du membre</li>
+        </ul>
+        <img th:src="@{/images/logo.png}" alt="Logo de l'Université"/>
+    </div>
+</body>
+</html>
