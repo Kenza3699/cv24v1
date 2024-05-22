@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Projet CV24</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+        .container {
+            text-align: center;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1px; 
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img th:src="@{/images/logo_app.png}" alt="Logo de l'application"/>
+            <img th:src="@{/images/logo.png}" alt="Logo de l'Université"/>
+        </div>
+        <h1 th:text="'Bienvenue dans ' + ${projectName}">Bienvenue dans notre projet</h1>
+        <p>Version du projet : <span>Version finale</span></p>
+        <h2>Membres de l'équipe :</h2>
+        <ul>
+            <li th:each="membre : ${teamMembers}" th:text="${membre}">Nom du membre</li>
+        </ul>
+    </div>
+</body>
+</html>
