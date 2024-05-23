@@ -26,7 +26,10 @@ Avant de commencer à utiliser localement l'application, vous avez besoin d'inst
  - Exécuter les commandes suivantes:
       - mvn clean package -DskipTests.
       - sudo docker compose build.
-      - sudo docker compose up.
+      - sudo docker compose up (vérifiez que le port n'est pas déja alloué).
+
+## Les fichiers XML:
+Vous trouverez les fichiers exemple1.xml et exemple2.xml dans le dossier xml dans le dossier ressources.
 
 ## Auteurs
 
